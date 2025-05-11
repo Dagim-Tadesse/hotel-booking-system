@@ -1,0 +1,23 @@
+
+# Ignore compiled class files
+*.class
+
+# Ignore package files
+*.jar
+*.war
+
+# Ignore logs and temp files
+*.log
+*.tmp
+
+# Ignore IDE-specific folders
+.vscode/
+.idea/
+*.iml
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore git folder (just in case)
+.git/
