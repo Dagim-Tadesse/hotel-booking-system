@@ -12,13 +12,7 @@ public class GuestManagementPanel extends JPanel {
     private DefaultListModel<String> guestListModel;
     private JList<String> guestList;
 
-    private CardLayout cardLayout;
-    private JPanel parentPanel;
-
     public GuestManagementPanel(CardLayout cardLayout, JPanel parentPanel) {
-        this.cardLayout = cardLayout;
-        this.parentPanel = parentPanel;
-
         setLayout(new BorderLayout());
 
         // Top: Form
@@ -65,7 +59,7 @@ public class GuestManagementPanel extends JPanel {
             String name = nameField.getText().trim().toLowerCase();
             String contact = contactField.getText().trim();
             if (!name.isEmpty() && !contact.isEmpty()) {
-                Guest guest = new Guest(name, contact, true);
+                new Guest(name, contact, true);
                 guestListModel.addElement(name + " - " + contact);
                 nameField.setText("");
                 contactField.setText("");

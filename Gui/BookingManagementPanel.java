@@ -12,13 +12,8 @@ import java.util.ArrayList;
 public class BookingManagementPanel extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
-    private CardLayout cardLayout;
-    private JPanel mainContainer;
 
     public BookingManagementPanel(CardLayout cardLayout, JPanel mainContainer) {
-        this.cardLayout = cardLayout;
-        this.mainContainer = mainContainer;
-
         setLayout(new BorderLayout());
 
         // Table Columns

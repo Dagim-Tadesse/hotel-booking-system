@@ -71,6 +71,11 @@ public class LoginPanel extends JPanel {
         gbc.gridy = 6;
         add(statusLabel, gbc);
 
+        // Guest Chat Button
+        JButton guestChatButton = new JButton("Continue as Guest (Chat)");
+        gbc.gridy = 7;
+        add(guestChatButton, gbc);
+
         // Action: Login
         ActionListener loginAction = e -> {
             String username = userField.getText();
@@ -86,5 +91,15 @@ public class LoginPanel extends JPanel {
 
         loginButton.addActionListener(loginAction);
         passField.addActionListener(loginAction); // Enter key submits form
+
+        // Action: Guest Chat
+        guestChatButton.addActionListener(e -> {
+            JFrame chatFrame = new JFrame("Guest Chat");
+            chatFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            chatFrame.add(new ChatPanel());
+            chatFrame.pack();
+            chatFrame.setLocationRelativeTo(null);
+            chatFrame.setVisible(true);
+        });
     }
 }

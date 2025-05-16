@@ -1,8 +1,6 @@
 # Hotel Booking Management System
 
-This is a Java-based Hotel Booking Management System featuring both a **Command-Line Interface (CLI)** and a **simplified Graphical User Interface (GUI)**. The system manages hotel rooms, guests, and bookings using a MySQL database backend.
-
----
+## This is a Java-based Hotel Booking Management System featuring both a **Command-Line Interface (CLI)**, a **simplified Graphical User Interface (GUI)**, and **basic networking features** using **Sockets** and **RMI**. The system manages hotel rooms, guests, bookings, and reports using a MySQL database backend.
 
 ## 🔹 Features
 
@@ -22,8 +20,27 @@ This is a Java-based Hotel Booking Management System featuring both a **Command-
   - Room Management
   - Guest Management
   - Booking Management
+- Button to continue **as a Guest** and enter the **chat interface**
 - Placeholder buttons for billing and reports (handled via CLI)
 - **Note:** GUI is a simplified demo; full functionality is accessible through the CLI
+
+### 🌐 Networking (Sockets):
+
+- Admin-side **Socket Server** (`AdminServer.java`) handles guest communication
+- Guest-side **Client Chat** connects via GUI (`ChatPanel`) or CLI (`GuestClient`)
+- Message handling and routing using `MessageProtocol.java`
+- Guests can:
+  - View available rooms
+  - Sign up as a new guest
+  - Chat with the Admin (simulated via server response)
+
+### 🛰 Remote Access (RMI):
+
+- Remote reporting via Java RMI
+- `ReportImp` handles report logic and connects to DB
+- `Report` interface defines remote methods (e.g., read, insert, daily reports)
+- RMI Server (`RMIServer.java`) registers report implementation
+- CLI/GUI can call report functions remotely (if RMI server is running)
 
 ---
 
@@ -41,6 +58,8 @@ This is a Java-based Hotel Booking Management System featuring both a **Command-
 - **Swing** (GUI)
 - **MySQL** (Database)
 - **JDBC** (Database connection)
+- **Java Sockets** (Networking)
+- **Java RMI** (Remote Reporting)
 
 ---
 
@@ -69,6 +88,8 @@ This is a Java-based Hotel Booking Management System featuring both a **Command-
 
 - Run HotelManagement.java for the full-featured CLI (HotelManagement.java)
 - Run MainGUI.java for the simplified GUI version(DEMO) (MainGUI.java)
+- Run Socket Server (admin chat backend): AdminServer.java
+- Run RMI Server (remote reporting): RMIServer.java
 
 ---
 
@@ -76,14 +97,11 @@ This is a Java-based Hotel Booking Management System featuring both a **Command-
 
 This GUI is a prototype version of the full CLI-based hotel booking management system. Login functionality is mock/hardcoded for demonstration purposes. The full system is accessible via CLI (HotelManagement.java).
 
+- Networking is added to allow guest communication via chat and remote report access via RMI.
+
 ## 📁 Project Structure
 
 HOTEL/
-│
-├── Gui/
-│ ├── BookingManagementPanel.java
-│ ├── LoginPanel.java
-│ └── [GUI Panels...]
 │
 ├── classes/
 │ ├── Room.java
@@ -93,6 +111,21 @@ HOTEL/
 │
 ├── database/
 │ └── Conn.java
+│
+├── Gui/
+│ ├── BookingManagementPanel.java
+│ ├── LoginPanel.java
+│ └── [GUI Panels...]
+│
+├── network/
+│ ├── AdminServer.java
+│ ├── GuestClient.java
+│ ├── GuestHandler.java
+│ └── MessageProtocol.java
+│
+├── rmi/
+│ ├── ReportImp.java
+│ └── RMIServer.java
 │
 ├── HotelManagement.java
 │

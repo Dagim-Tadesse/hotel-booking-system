@@ -1,5 +1,7 @@
 import classes.*;
 import java.util.*;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -7,7 +9,6 @@ public class HotelManagement {
     static ArrayList<Room> rooms = Room.readRoomDB();
     static ArrayList<Guest> guests = Guest.readGuestDB();
     static ArrayList<Booking> bookings = Booking.readBookingDB();
-    static ArrayList<String> reports = Report.readReportDB();
 
     // to set the date
     // Get the current date and time
@@ -769,44 +770,54 @@ public class HotelManagement {
 
     public static void processPayment(Scanner scanner) {
 
-        System.out.print("Enter room number: ");
-        String roomNumber = scanner.nextLine();
+        try {
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            Report report = (Report) registry.lookup("ReportService");
+            ArrayList<String> reports = report.readReportDB();
 
-        for (Booking booking : bookings) {
-            if (booking.room.roomNumber.equals(roomNumber) && !booking.isPaid) {
+            System.out.print("Enter room number: ");
+            String roomNumber = scanner.nextLine();
 
-                System.out.print("Enter the payment method(cash, telebirr, cbe, awash bank, boa, dashen bank): ");
-                String payMethod = scanner.nextLine().trim().toLowerCase();
-                if (!(payMethod.equals("cash") || payMethod.equals("telebirr") || payMethod.equals("cbe")
-                        || payMethod.equals("awash bank") || payMethod.equals("boa")
-                        || payMethod.equals("dashen bank"))) {
-                    System.out.println("entered wrong payment method , try again.");
+            for (Booking booking : bookings) {
+                if (booking.room.roomNumber.equals(roomNumber) && !booking.isPaid) {
+
+                    System.out.print("Enter the payment method(cash, telebirr, cbe, awash bank, boa, dashen bank): ");
+                    String payMethod = scanner.nextLine().trim().toLowerCase();
+                    if (!(payMethod.equals("cash") || payMethod.equals("telebirr") || payMethod.equals("cbe")
+                            || payMethod.equals("awash bank") || payMethod.equals("boa")
+                            || payMethod.equals("dashen bank"))) {
+                        System.out.println("entered wrong payment method , try again.");
+                        return;
+                    }
+                    System.out.print("Enter the amount you want to pay: ");
+                    int amount = scanner.nextInt();
+
+                    booking.totalPrice = booking.totalPrice - amount;
+                    report.insertReportDB(booking, payMethod, booking.totalPrice);
+                    Booking.updatePriceDB(booking.guest.name, roomNumber, booking.totalPrice);
+                    if (booking.totalPrice <= 0) {
+                        booking.isPaid = true;
+                        booking.totalPrice = 0;
+                        Booking.updatePriceDB(booking.guest.name, roomNumber, 0);
+                    }
+                    // -------------------------------------
+                    reports.add("Guest info: " + booking.guest.name + " - " + booking.guest.contactInfo + "\n"
+                            + "\troom info: " + booking.room.roomNumber + " - " + booking.room.roomType + "\n"
+                            + "\tcheck-in-date -- check-out-date: " + booking.check_in_date + " -- "
+                            + booking.check_out_date + "\n"
+                            + "\ttotalPrice: " + booking.totalPrice + "$ - " + payMethod + " -- " + formattedDate);
+
+                    System.out.println(
+                            "Payment of " + booking.room.roomNumber + " - " + booking.guest.name
+                                    + " has been processed.");
                     return;
                 }
-                System.out.print("Enter the amount you want to pay: ");
-                int amount = scanner.nextInt();
-
-                booking.totalPrice = booking.totalPrice - amount;
-                Report.insertReportDB(booking, payMethod, booking.totalPrice);
-                Booking.updatePriceDB(booking.guest.name, roomNumber, booking.totalPrice);
-                if (booking.totalPrice <= 0) {
-                    booking.isPaid = true;
-                    booking.totalPrice = 0;
-                    Booking.updatePriceDB(booking.guest.name, roomNumber, 0);
-                }
-                // -------------------------------------
-                reports.add("Guest info: " + booking.guest.name + " - " + booking.guest.contactInfo + "\n"
-                        + "\troom info: " + booking.room.roomNumber + " - " + booking.room.roomType + "\n"
-                        + "\tcheck-in-date -- check-out-date: " + booking.check_in_date + " -- "
-                        + booking.check_out_date + "\n"
-                        + "\ttotalPrice: " + booking.totalPrice + "$ - " + payMethod + " -- " + formattedDate);
-
-                System.out.println(
-                        "Payment of " + booking.room.roomNumber + " - " + booking.guest.name + " has been processed.");
-                return;
             }
+            System.out.println("The booking doesn't exist or has been paid.");
+        } catch (Exception e) {
+            System.out.println("RMI server not available, reports not loaded.");
+            return;
         }
-        System.out.println("The booking doesn't exist or has been paid.");
     }
 
     public static void displayReportsMenu(Scanner scanner) {
@@ -840,29 +851,45 @@ public class HotelManagement {
     }
 
     public static void viewPaymentHistory(Scanner scanner) {
-        System.out.println("Payment History:"); // Logic to display payment history
-        for (String report : reports) {
-            System.out.println(report);
-            System.out.println("");// for spacing (\n)
+        try {
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            Report report = (Report) registry.lookup("ReportService");
+            ArrayList<String> reports = report.readReportDB();
+
+            System.out.println("Payment History:"); // Logic to display payment history
+            for (String r : reports) {
+                System.out.println(r);
+                System.out.println("");// for spacing (\n)
+            }
+        } catch (Exception e) {
+            System.out.println("RMI server not available, reports not loaded.");
+            return;
         }
 
     }
 
     public static void generateDailySalesReport(Scanner scanner) {
 
-        System.out.print("Enter a date (yyyy-MM-dd): ");
-        String datestr = scanner.nextLine();
+        try {
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            Report report = (Report) registry.lookup("ReportService");
+            System.out.print("Enter a date (yyyy-MM-dd): ");
+            String datestr = scanner.nextLine();
 
-        int totalSales = Report.dailyReportDB(datestr);
-        int count = Report.countRow(datestr);
-        double averageSales = 0;
-        if (count > 0) {
-            averageSales = (double) totalSales / count;
+            int totalSales = report.dailyReportDB(datestr);
+            int count = report.countRow(datestr);
+            double averageSales = 0;
+            if (count > 0) {
+                averageSales = (double) totalSales / count;
+            }
+
+            System.out.println("Daily Sales Report:");
+            System.out.println("Total Sales: " + totalSales + "$");
+            System.out.println("Average Sales: " + averageSales + "$");
+        } catch (Exception e) {
+            System.out.println("RMI server not available, reports not loaded.");
+            return;
         }
-
-        System.out.println("Daily Sales Report:");
-        System.out.println("Total Sales: " + totalSales + "$");
-        System.out.println("Average Sales: " + averageSales + "$");
     }
 
 }

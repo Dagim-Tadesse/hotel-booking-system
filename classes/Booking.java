@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import database.Conn;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +18,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;//for counting the days between checkin and checkout
 
-public class Booking {
+public class Booking implements Serializable {
+    private static final long serialVersionUID = 1L;
     public Room room;
     public Guest guest;
     public boolean isPaid;

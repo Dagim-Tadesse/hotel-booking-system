@@ -5,19 +5,13 @@ import classes.Room;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.ArrayList;
 
 public class RoomManagementPanel extends JPanel {
     private JTable roomTable;
     private DefaultTableModel tableModel;
-    private CardLayout cardLayout;
-    private JPanel parentPanel;
 
     public RoomManagementPanel(CardLayout cardLayout, JPanel parentPanel) {
-        this.cardLayout = cardLayout;
-        this.parentPanel = parentPanel;
-
         setLayout(new BorderLayout());
 
         JLabel titleLabel = new JLabel("Room Management", JLabel.CENTER);
@@ -70,22 +64,18 @@ public class RoomManagementPanel extends JPanel {
 
     private void handleAddRoom() {
         JTextField roomNumberField = new JTextField();
-        JTextField roomTypeField = new JTextField();
+        String[] roomTypes = { "singlebed", "doublebed", "suite" };
+        JComboBox<String> roomTypeBox = new JComboBox<>(roomTypes);
 
         Object[] message = {
                 "Room Number:", roomNumberField,
-                "Room Type (singlebed, doublebed, suite):", roomTypeField
+                "Room Type:", roomTypeBox
         };
 
         int option = JOptionPane.showConfirmDialog(this, message, "Add Room", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             String roomNumber = roomNumberField.getText().trim();
-            String roomType = roomTypeField.getText().trim().toLowerCase();
-
-            if (!Room.roomtypecheck(roomType)) {
-                JOptionPane.showMessageDialog(this, "Invalid room type.");
-                return;
-            }
+            String roomType = ((String) roomTypeBox.getSelectedItem()).toLowerCase();
 
             ArrayList<Room> rooms = Room.readRoomDB();
             for (Room r : rooms) {
@@ -123,9 +113,13 @@ public class RoomManagementPanel extends JPanel {
         switch (selected) {
             case "Room Type":
                 column = "roomType";
-                newValue = JOptionPane.showInputDialog(this, "Enter new room type:");
-                if (!Room.roomtypecheck(newValue)) {
-                    JOptionPane.showMessageDialog(this, "Invalid room type.");
+                String[] roomTypes = { "singlebed", "doublebed", "suite" };
+                JComboBox<String> typeBox = new JComboBox<>(roomTypes);
+                int result = JOptionPane.showConfirmDialog(this, typeBox, "Select new room type",
+                        JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    newValue = (String) typeBox.getSelectedItem();
+                } else {
                     return;
                 }
                 break;
