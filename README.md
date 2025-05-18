@@ -78,7 +78,7 @@
 
 - > Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel_db", "yourUsername", "yourPassword");
 
-- Run SQL scripts to create tables for rooms, guests, bookings, etc. refer to the DB.txt that has all neccessary querys with commentd guide
+- Run SQL scripts to create tables for rooms, guests, bookings, etc. refer to the DB_setup.sql that has all neccessary querys with commented guide
 
 ### 4. create the database:
 
