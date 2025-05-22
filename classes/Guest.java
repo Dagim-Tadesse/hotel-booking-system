@@ -2,16 +2,13 @@ package classes;
 
 import database.Conn;
 import java.util.*;
-// import java.io.BufferedReader;
-// import java.io.FileInputStream;
-// import java.io.IOException;
-// import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
-public class Guest {
+import java.sql.*;
+import java.io.Serializable;
+
+public class Guest implements Serializable {
+    // for easy serialization
+    private static final long serialVersionUID = 1L;
     public String name;
     public String contactInfo;
 

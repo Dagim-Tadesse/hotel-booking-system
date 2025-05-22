@@ -1,8 +1,5 @@
 
-import Gui.BookingManagementPanel;
-import Gui.GuestManagementPanel;
-import Gui.LoginPanel;
-import Gui.RoomManagementPanel;
+import Gui.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,12 +34,18 @@ public class MainGUI extends JFrame {
         // Only Booking Management Panel is functional
         BookingManagementPanel bookingPanel = new BookingManagementPanel(cardLayout, mainContainer);
 
+        billPanel billPanel = new billPanel(cardLayout, mainContainer);
+
+        ReportManagementPanel reportpanel = new ReportManagementPanel(cardLayout, mainContainer);
+
         // Add panels to the card layout
         mainContainer.add(mainPanel, "MainMenu");
         mainContainer.add(loginPanel, "Login");
         mainContainer.add(roomPanel, "RoomManagement");
         mainContainer.add(guestPanel, "GuestManagement");
         mainContainer.add(bookingPanel, "BookingManagement");
+        mainContainer.add(billPanel, "BillPanel");
+        mainContainer.add(reportpanel, "Report");
 
         add(mainContainer);
         setVisible(true);
@@ -87,10 +90,8 @@ public class MainGUI extends JFrame {
         roomButton.addActionListener(e -> cardLayout.show(mainContainer, "RoomManagement"));
         guestButton.addActionListener(e -> cardLayout.show(mainContainer, "GuestManagement"));
         bookingButton.addActionListener(e -> cardLayout.show(mainContainer, "BookingManagement"));
-        billingButton
-                .addActionListener(e -> JOptionPane.showMessageDialog(this, "Billing and Payments - Coming Soon."));
-        reportButton
-                .addActionListener(e -> JOptionPane.showMessageDialog(this, "Reports and Analytics - Coming Soon."));
+        billingButton.addActionListener(e -> cardLayout.show(mainContainer, "BillPanel"));
+        reportButton.addActionListener(e -> cardLayout.show(mainContainer, "Report"));
         exitButton.addActionListener(e -> System.exit(0));
 
         return panel;

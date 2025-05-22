@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import database.Conn;
 
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;//for changing string to localdate object
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;

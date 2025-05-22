@@ -109,7 +109,8 @@ public class RoomManagementPanel extends JPanel {
         String newValue = "";
         boolean isBoolean = false;
         boolean isInt = false;
-
+        boolean isRType = false;
+        String price = " ";
         switch (selected) {
             case "Room Type":
                 column = "roomType";
@@ -119,9 +120,30 @@ public class RoomManagementPanel extends JPanel {
                         JOptionPane.OK_CANCEL_OPTION);
                 if (result == JOptionPane.OK_OPTION) {
                     newValue = (String) typeBox.getSelectedItem();
+                    Room.updateRoomDB(roomNumber, column, newValue, isBoolean, isInt);
+                    isRType = true;
+
+                    if (newValue.equals("singlebed")) {
+                        price = "1000";
+                    } else if (newValue.equals("doublebed")) {
+                        price = "1500";
+                    } else {
+                        price = "3000";
+                    }
+
                 } else {
                     return;
                 }
+                // no break because when roomtype is updated so does the rom price
+            case "Price":
+
+                column = "roomPrice";
+                if (!isRType) {
+                    newValue = JOptionPane.showInputDialog(this, "Enter new price:");
+                } else {
+                    newValue = price;
+                }
+                isInt = true;
                 break;
             case "Availability":
                 column = "isAvailable";
@@ -133,11 +155,7 @@ public class RoomManagementPanel extends JPanel {
                 newValue = JOptionPane.showInputDialog(this, "Enter maintenance status (true/false):");
                 isBoolean = true;
                 break;
-            case "Price":
-                column = "roomPrice";
-                newValue = JOptionPane.showInputDialog(this, "Enter new price:");
-                isInt = true;
-                break;
+
         }
 
         if (newValue != null && !newValue.isEmpty()) {

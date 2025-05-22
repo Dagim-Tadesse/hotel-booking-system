@@ -1,20 +1,14 @@
 package classes;
-//import txt_file.*;
 
-// import java.io.BufferedReader;
-// import java.io.FileInputStream;
-// import java.io.IOException;
-// import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.io.Serializable;
+import java.sql.*;
 import java.util.ArrayList;
 
 import database.Conn;
 
-public class Room {
-
+public class Room implements Serializable {
+    // for easy serialization
+    private static final long serialVersionUID = 1L;
     public String roomNumber;
     public String roomType;
     public int roomPrice;
@@ -71,24 +65,6 @@ public class Room {
         return (rtype.equals("singlebed") || rtype.equals("doublebed") || rtype.equals("suite"));
     }
 
-    // public static ArrayList<Room> read() {
-    // ArrayList<Room> rooms = new ArrayList<>();
-
-    // String RoomPath = "txt_file/room.txt";
-
-    // try (FileInputStream fis = new FileInputStream(RoomPath);
-    // BufferedReader reader = new BufferedReader(new InputStreamReader(fis))) {
-    // String line, line1;
-    // while ((line = reader.readLine()) != null) {
-    // line1 = reader.readLine();
-    // rooms.add(new Room(line, line1));
-    // }
-
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // }
-    // return rooms;
-    // }
     public static int getRoomId(String num) {
         Connection connection = Conn.getConnection();
         int id = -1;
