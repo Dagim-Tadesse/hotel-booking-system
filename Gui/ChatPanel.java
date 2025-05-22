@@ -17,6 +17,8 @@ public class ChatPanel extends JPanel {
 
         chatArea = new JTextArea(15, 40);
         chatArea.setEditable(false);
+        chatArea.setLineWrap(true);
+        chatArea.setWrapStyleWord(true);
         JScrollPane scrollPane = new JScrollPane(chatArea);
 
         inputField = new JTextField();
@@ -63,6 +65,7 @@ public class ChatPanel extends JPanel {
             chatArea.append("You: " + msg + "\n");
             out.println(msg);
             inputField.setText("");
+            chatArea.setCaretPosition(chatArea.getDocument().getLength());
         }
     }
 }

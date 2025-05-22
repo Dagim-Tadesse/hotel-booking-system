@@ -27,7 +27,8 @@ public class MessageProtocol {
         } else if (message.startsWith("contact-admin")) {
             String adminMsg = message.substring("contact-admin".length()).trim();
             System.out.println("[ADMIN REQUEST] From guest: " + adminMsg); // Print for admin to see
-            return "Your message has been sent to the admin. for more info please contact us.";
+            return "Your message has been sent to the admin. we will contact you (max 24hour) for full detailed report."
+                    + "\nplease sign-up. ";
         }
 
         switch (message) {
@@ -62,7 +63,9 @@ public class MessageProtocol {
                 return "to book a room send in this format: 'contact-admin <Fullname> <roomNumber> <check-in-date> <check-out-date>'";
 
             case "contact admin":
-                return "Please enter your message after 'contact-admin'. Example: contact-admin I want to book room 101.";
+                return "Please enter your message after 'contact-admin'."
+                        + "\n Example: for booking : contact-admin <Full-Name> <roomnumber> <check-in-date> <check-out-date>."
+                        + "\nfor other things : contact-admin <your problem>. ";
 
             case "help":
                 return "You can ask: 'available rooms', 'new guest', 'book room', 'contact admin', or 'exit'.";

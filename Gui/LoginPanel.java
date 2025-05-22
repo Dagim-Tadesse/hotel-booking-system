@@ -98,6 +98,7 @@ public class LoginPanel extends JPanel {
             chatFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             chatFrame.add(new ChatPanel());
             chatFrame.pack();
+            chatFrame.setSize(700, 400);
             chatFrame.setLocationRelativeTo(null);
             chatFrame.setVisible(true);
         });
