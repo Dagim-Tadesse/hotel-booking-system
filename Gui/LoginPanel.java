@@ -13,9 +13,8 @@ public class LoginPanel extends JPanel {
 
         // Notice at the top
         JLabel noticeLabel = new JLabel("<html><div style='text-align: center;'>"
-                + "This GUI is a simplified prototype version of the full CLI-based hotel booking management system.<br>"
+                + "The full system is only allowed to the hotel administrators and managers.<br>"
                 + "Login functionality is mock/hardcoded for demonstration purposes.<br>"
-                + "The full system is accessible via CLI."
                 + "</div></html>");
         noticeLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         gbc.gridx = 0;
@@ -53,7 +52,7 @@ public class LoginPanel extends JPanel {
         add(passField, gbc);
 
         // Hint
-        JLabel hintLabel = new JLabel("Hint: Username: admin | Password: 123456 (demo only)");
+        JLabel hintLabel = new JLabel("Hint: Username: admin | Password: 123456 ");
         hintLabel.setFont(new Font("Arial", Font.ITALIC, 11));
         hintLabel.setForeground(Color.DARK_GRAY);
         gbc.gridx = 0;
