@@ -19,7 +19,7 @@ public class GuestHandler implements Runnable {
                     new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-            out.println("Welcome to Hotel Booking Assistant. Type 'exit' to quit.");
+            out.println("Welcome to the Hotel Booking Assistant! Type 'help' for more information or 'exit' to quit.");
             String inputLine;
 
             while ((inputLine = in.readLine()) != null) {
