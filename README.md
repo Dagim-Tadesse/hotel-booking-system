@@ -13,7 +13,7 @@
 - **Billing** calculations
 - Fully functional database integration
 
-### 🖼 GUI (Prototype):
+### 🖼 GUI :
 
 - GUI Login screen with mock authentication (`admin` / `123456`)
 - GUI Panels for:

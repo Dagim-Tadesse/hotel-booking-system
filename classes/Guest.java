@@ -122,7 +122,7 @@ public class Guest implements Serializable {
     public static void updateGuestDB(String guestname, String column, String newValue) {
 
         Connection connection = Conn.getConnection();
-        int id = Guest.getGuestId("sd");
+        int id = Guest.getGuestId(guestname);
         try {
             if (connection != null) {
                 String query = "UPDATE guest SET " + column + " = ? WHERE guestId = ?";
